@@ -159,9 +159,22 @@ namespace Chess
 
         public void SetInitialPlacement960()
         {
-            List<Piece> freePieces = new List<Piece> { Piece.KING, Piece.QUEEN, Piece.ROOK, Piece.ROOK, Piece.BISHOP, Piece.BISHOP, Piece.KNIGHT, Piece.KNIGHT };
+            List<Piece> shufflePieces = Chess960Setup();
+
+            for (var j = 0; j < 8; j++)
+            {
+                SetPiece(shufflePieces[j], Player.WHITE, j, 0);
+                SetPiece(Piece.PAWN, Player.WHITE, j, 1);
+                SetPiece(Piece.PAWN, Player.BLACK, j, 6);
+                SetPiece(shufflePieces[j], Player.BLACK, j, 7);
+            }
+        }
+
+        public static List<Piece> Chess960Setup()
+        {
             List<Piece> shufflePieces = new List<Piece>();
             Random rand = new Random();
+            List<Piece> freePieces = new List<Piece> { Piece.KING, Piece.QUEEN, Piece.ROOK, Piece.ROOK, Piece.BISHOP, Piece.BISHOP, Piece.KNIGHT, Piece.KNIGHT };
             int bSet = -1;
 
             for (int i = 0; i < 8; i++)
@@ -196,12 +209,12 @@ namespace Chess
                             bSet = i;
                         }
                         else
-                        {  
+                        {
                             if (bSet % 2 != i % 2)
                             {
                                 con = true;
                             }
-                            else if(i == 7)
+                            else if (i == 7)
                             {
                                 shufflePieces.Insert(0, freePieces[randomPiece]);
                             }
@@ -218,13 +231,7 @@ namespace Chess
                     }
                 }
             }
-            for (var j = 0; j < 8; j++)
-            {
-                SetPiece(shufflePieces[j], Player.WHITE, j, 0);
-                SetPiece(Piece.PAWN, Player.WHITE, j, 1);
-                SetPiece(Piece.PAWN, Player.BLACK, j, 6);
-                SetPiece(shufflePieces[j], Player.BLACK, j, 7);
-            }
+            return shufflePieces;
         }
     
 

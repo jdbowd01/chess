@@ -19,7 +19,7 @@ namespace Chess
         Player m_manualPlayer = Player.WHITE;
         Piece m_manualPiece = Piece.PAWN;
 
-        Chess chess;
+        ChessRun chess;
                 
         /// <summary>
         /// Stop all current activity / games and reset everything.
@@ -73,7 +73,7 @@ namespace Chess
 
             // create new game for number of players
             m_aigame = (nPlayers == 0);
-            chess = new Chess(this, nPlayers, !m_manualBoard, chess960);
+            chess = new ChessRun(this, nPlayers, !m_manualBoard, chess960);
 
             // show turn status
             SetTurn(Player.WHITE);

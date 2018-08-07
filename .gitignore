@@ -18,3 +18,21 @@ project/\.vs/Chess/v15/\.suo
 *.txt
 
 *.resources
+
+*.dll
+
+*.xml
+
+*.CopyComplete
+
+project/ChessTest/obj/Debug/
+
+*.config
+
+*.coverage
+
+*.props
+
+*.targets
+
+*.nupkg
