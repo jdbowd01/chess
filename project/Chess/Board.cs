@@ -157,6 +157,85 @@ namespace Chess
             SetPiece(Piece.QUEEN, Player.BLACK, 3, 7);
         }
 
+        public void SetInitialPlacement960()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                SetPiece(Piece.PAWN, Player.WHITE, i, 1);
+                SetPiece(Piece.PAWN, Player.BLACK, i, 6);
+            }
+
+            List<char> freeSquares = new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
+            List<Piece> freePieces = new List<Piece> { Piece.KING, Piece.QUEEN, Piece.ROOK, Piece.ROOK, Piece.BISHOP, Piece.BISHOP, Piece.KNIGHT, Piece.KNIGHT };
+            List<Piece> shufflePieces = new List<Piece>();
+
+            for (int i = 0; i < 8; i++)
+            {
+                Random rand = new Random();
+                var con = false;
+                var bSet = -1;
+                while (!con)
+                {
+                    var randomPiece = rand.Next(8 - i);
+                    if (freePieces[randomPiece] == Piece.ROOK)
+                    {
+                        if (freePieces.IndexOf(Piece.ROOK) != freePieces.LastIndexOf(Piece.ROOK))
+                        {
+                            con = true;
+                        }
+                        else if (!freePieces.Contains(Piece.KING))
+                        {
+                            con = true;
+                        }
+                    }
+                    else if (freePieces[randomPiece] == Piece.KING)
+                    {
+                        if (!freePieces.Contains(Piece.ROOK))
+                        {
+                            con = true;
+                        }
+                    }
+                    else if (freePieces[randomPiece] == Piece.BISHOP)
+                    {
+                        if (bSet == -1)
+                        {
+                            con = true;
+                            bSet = i;
+                        }
+                        else
+                        {
+                            if (i == 7)
+                            {
+                                shufflePieces.Insert(0, freePieces[randomPiece]);
+                            }
+                            else
+                            {
+                                if (bSet % 2 != i % 2)
+                                {
+                                    con = true;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        con = true;
+                    }
+                    if (con)
+                    {
+                        shufflePieces.Add(freePieces[randomPiece]);
+                        freePieces.RemoveAt(randomPiece);
+                    }
+                }
+            }
+            for (var j = 0; j < 8; j++)
+            {
+                SetPiece(Piece.ROOK, Player.WHITE, 0, 0);
+                SetPiece(shufflePieces[j], Player.WHITE, freeSquares[j], 1);
+            }
+        }
+    
+
         public void SetPiece(Piece piece, Player player, int letter, int number)
         {
             // set grid values
