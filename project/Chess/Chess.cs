@@ -33,7 +33,7 @@ namespace Chess
             {
                 this.Board.SetInitialPlacement();
             }
-            else if(setupBoard && !chess960)
+            else if(setupBoard && chess960)
             {
                 this.Board.SetInitialPlacement960();
             }

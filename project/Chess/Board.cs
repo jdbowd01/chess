@@ -159,21 +159,14 @@ namespace Chess
 
         public void SetInitialPlacement960()
         {
-            for (int i = 0; i < 8; i++)
-            {
-                SetPiece(Piece.PAWN, Player.WHITE, i, 1);
-                SetPiece(Piece.PAWN, Player.BLACK, i, 6);
-            }
-
-            List<char> freeSquares = new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
             List<Piece> freePieces = new List<Piece> { Piece.KING, Piece.QUEEN, Piece.ROOK, Piece.ROOK, Piece.BISHOP, Piece.BISHOP, Piece.KNIGHT, Piece.KNIGHT };
             List<Piece> shufflePieces = new List<Piece>();
+            Random rand = new Random();
+            int bSet = -1;
 
             for (int i = 0; i < 8; i++)
             {
-                Random rand = new Random();
                 var con = false;
-                var bSet = -1;
                 while (!con)
                 {
                     var randomPiece = rand.Next(8 - i);
@@ -190,7 +183,7 @@ namespace Chess
                     }
                     else if (freePieces[randomPiece] == Piece.KING)
                     {
-                        if (!freePieces.Contains(Piece.ROOK))
+                        if (freePieces.IndexOf(Piece.ROOK) == freePieces.LastIndexOf(Piece.ROOK))
                         {
                             con = true;
                         }
@@ -203,17 +196,14 @@ namespace Chess
                             bSet = i;
                         }
                         else
-                        {
-                            if (i == 7)
+                        {  
+                            if (bSet % 2 != i % 2)
+                            {
+                                con = true;
+                            }
+                            else if(i == 7)
                             {
                                 shufflePieces.Insert(0, freePieces[randomPiece]);
-                            }
-                            else
-                            {
-                                if (bSet % 2 != i % 2)
-                                {
-                                    con = true;
-                                }
                             }
                         }
                     }
@@ -230,8 +220,10 @@ namespace Chess
             }
             for (var j = 0; j < 8; j++)
             {
-                SetPiece(Piece.ROOK, Player.WHITE, 0, 0);
-                SetPiece(shufflePieces[j], Player.WHITE, freeSquares[j], 1);
+                SetPiece(shufflePieces[j], Player.WHITE, j, 0);
+                SetPiece(Piece.PAWN, Player.WHITE, j, 1);
+                SetPiece(Piece.PAWN, Player.BLACK, j, 6);
+                SetPiece(shufflePieces[j], Player.BLACK, j, 7);
             }
         }
     
